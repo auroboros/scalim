@@ -29,51 +29,62 @@ class BasicImageManipulationSpec extends FlatSpec with Matchers {
 
     println(s"${dataBuffInt.length} w $w h $h")
 
-    dataBuffInt.indices foreach { ind =>
-      val c = new Color(dataBuffInt(ind))
-      val newC = new Color(
-        (c.getRed * 2) % 255,
-        (c.getGreen * 2) % 255,
-        (c.getBlue * 2) % 255
-      )
-      dataBuffInt.update(ind, newC.getRGB)
+    for (x <- 0 until w; y <- 0 until h) {
+      val pixelValue = img.getRGB(x, y)
+      val color = new Color(pixelValue)
+      img.setRGB(x, y, new Color((color.getRed + 100) % 255, color.getGreen, color.getBlue).getRGB)
     }
 
-    img.setRGB(0, 0, w, h, dataBuffInt, 0, 1)
+    //    dataBuffInt.indices foreach { ind =>
+    //      val c = new Color(dataBuffInt(ind))
+    //      val newC = new Color(
+    //        (c.getRed * 2) % 255,
+    //        (c.getGreen * 2) % 255,
+    //        (c.getBlue * 2) % 255
+    //      )
+    //      dataBuffInt.update(ind, newC.getRGB)
+    //    }
+    //
+    //    img.setRGB(0, 0, w, h, dataBuffInt, 0, 1)
 
-//    val jPanel = new JPanel{
-//      override def paintComponent(g: Graphics) {
-//        super.paintComponent(g)
-//        g.drawImage(img, 0, 0, this) // see javadoc for more info on the parameters
-//      }
-//    }
+    //    val jPanel = new JPanel{
+    //      override def paintComponent(g: Graphics) {
+    //        super.paintComponent(g)
+    //        g.drawImage(img, 0, 0, this) // see javadoc for more info on the parameters
+    //      }
+    //    }
 
     val picLabel = new JLabel(new ImageIcon(img))
 
-//    val jPanel = new JPanel()
-//    jPanel.setBounds(100, 100, w, h)
-//    jPanel.setVisible(true)
-//    jPanel.add(picLabel)
-//    picLabel.setVisible(true)
+    //    val jPanel = new JPanel()
+    //    jPanel.setBounds(100, 100, w, h)
+    //    jPanel.setVisible(true)
+    //    jPanel.add(picLabel)
+    //    picLabel.setVisible(true)
 
-//    jPanel.
+    //    jPanel.
 
     val snakeFrame = new JFrame()
     snakeFrame.setBounds(100, 200, w, h)
     snakeFrame.setVisible(true)
     snakeFrame.add(picLabel)
     snakeFrame.pack()
+    snakeFrame.addWindowListener(new WindowAdapter() {
+      override def windowClosing(e: WindowEvent) {
+        System.exit(0)
+      }
+    })
 
-    Thread.sleep(10000)
+    Thread.sleep(Integer.MAX_VALUE)
 
     // red = (dataBuffInt[100] >> 16) & 0xFF
     //    println(c.getGreen) // = (dataBuffInt[100] >> 8)  & 0xFF
     //    println(c.getBlue) // = (dataBuffInt[100] >> 0)  & 0xFF
     //    println(c.getAlpha) // = (dataBuffInt[100] >> 24) & 0xFF
 
-      // WRITE TO FILE
-//    val outputfile = new File("/Users/johnmcgill/Documents/ruined_image.jpg")
-//    ImageIO.write(img, "jpg", outputfile)
+    // WRITE TO FILE
+    //    val outputfile = new File("/Users/johnmcgill/Documents/ruined_image.jpg")
+    //    ImageIO.write(img, "jpg", outputfile)
 
     //    val f = new JFrame("Jumbled Image")
     //    f.addWindowListener(new WindowAdapter() {
